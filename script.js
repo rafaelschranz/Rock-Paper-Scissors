@@ -2,18 +2,34 @@ let humanScore = 0;
 let computerScore = 0;
 
 function getComputerChoice() {
-  let randomNumber = Math.floor(Math.random() * 3);
-
-  switch (randomNumber) {
+  const choice = Math.floor(Math.random() * 3);
+  switch (choice) {
     case 0:
-      return "Rock";
-
+      return "rock";
     case 1:
-      return "Paper";
-
+      return "paper";
     case 2:
-      return "Scissors";
+      return "scissors";
   }
+}
+
+for (let i = 0; i < 5; i++) {
+  const humanSelection = getHumanChoice();
+  const computerSelection = getComputerChoice();
+
+  if (humanSelection && computerSelection) {
+    const result = playRound(humanSelection, computerSelection);
+    console.log(result);
+  } else {
+    console.log("Invalid game setup.");
+  }
+
+  console.log(
+    "Round " + (i + 1) + " - Computer's choice: " + computerSelection
+  );
+  console.log(
+    "Human Score: " + humanScore + ", Computer Score: " + computerScore
+  );
 }
 
 function getHumanChoice() {
@@ -27,8 +43,13 @@ function getHumanChoice() {
 const humanSelection = getHumanChoice();
 const computerSelection = getComputerChoice();
 
-playRound(humanSelection, computerSelection);
-
+// Ensure both selections are valid before playing the round
+if (humanSelection && computerSelection) {
+  const result = playRound(humanSelection, computerSelection); // Capture the result
+  console.log(result); // Display the result
+} else {
+  console.log("Invalid game setup.");
+}
 function playRound(humanSelection, computerSelection) {
   if (humanSelection === computerSelection) {
     return "Tie";
@@ -37,29 +58,21 @@ function playRound(humanSelection, computerSelection) {
   if (humanSelection === "rock" && computerSelection === "paper") {
     computerScore++;
     return "The Computer has won!";
-  } else {
-    humanScore++;
-
-    return "You won!";
-  }
-
-  if (humanSelection === "paper" && computerSelection === "scissors") {
+  } else if (humanSelection === "paper" && computerSelection === "scissors") {
+    computerScore++;
+    return "The Computer has won!";
+  } else if (humanSelection === "scissors" && computerSelection === "rock") {
     computerScore++;
     return "The Computer has won!";
   } else {
     humanScore++;
-
-    return "You won!";
-  }
-  if (humanSelection === "scissors" && computerSelection === "rock") {
-    return "The Computer has won!";
-    computerScore++;
-  } else {
-    humanScore++;
-
     return "You won!";
   }
 }
 playRound();
+console.log("Computer's choice: " + computerSelection); // Correctly log the computer's choice
 console.log("Human Score: " + humanScore);
 console.log("Computer Score: " + computerScore);
+console.log(
+  "Final Scores - Human: " + humanScore + ", Computer: " + computerScore
+);
